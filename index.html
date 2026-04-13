@@ -374,6 +374,18 @@
     .sc-desc { font-size: .8rem; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1.1rem; }
     .sc-foot { display: flex; justify-content: space-between; align-items: center; }
     .sc-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); }
+
+    .sc-actions { margin-top: .9rem; }
+    .sc-add-btn {
+      width: 100%; background: transparent;
+      border: 1px solid var(--border); color: var(--gold);
+      font-family: 'Karla', sans-serif; font-size: .65rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: .6rem 1rem; border-radius: 2px; cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    .sc-add-btn:hover { background: var(--gold-dim); border-color: var(--gold); }
+    .spec-card[data-highlight] { cursor: pointer; }
     .pill { font-size: .57rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: 3px 7px; border-radius: 2px; }
     .pill-pop  { background: var(--gold-dim); color: var(--gold); }
     .pill-hot  { background: var(--red-dim); color: #e05050; }
@@ -1026,60 +1038,68 @@
   </div>
   <div class="spec-grid">
 
-    <div class="spec-card fade-up">
+    <div class="spec-card fade-up" data-highlight="Burmese Cup">
       <div class="sc-cat">Burmese · Appetizer</div>
       <div class="sc-name">Burmese Cup</div>
       <div class="sc-desc">Nine crispy pastry cups: curry-seasoned chicken &amp; potato, pork with pineapple &amp; peanuts, and seasoned corn in pistachio sauce.</div>
       <div class="sc-foot"><span class="sc-price">$9.99</span><span class="pill pill-pop">Fan Favorite</span></div>
+      <div class="sc-actions"><button class="sc-add-btn">Customize &amp; Add to Order +</button></div>
     </div>
 
-    <div class="spec-card fade-up">
+    <div class="spec-card fade-up" data-highlight="Tea Leaf Salad">
       <div class="sc-cat">Thai · Salad</div>
       <div class="sc-name">Tea Leaf Salad</div>
       <div class="sc-desc">Fermented tea leaves, cabbage, peanuts, sesame, garlic, chili, and lime. A signature Burmese classic, served vegetarian.</div>
       <div class="sc-foot"><span class="sc-price">$12.99</span><span class="pill pill-veg">Vegetarian</span></div>
+      <div class="sc-actions"><button class="sc-add-btn">Customize &amp; Add to Order +</button></div>
     </div>
 
-    <div class="spec-card fade-up">
+    <div class="spec-card fade-up" data-highlight="Pad Kee Mao">
       <div class="sc-cat">Thai · Noodle</div>
       <div class="sc-name">Pad Kee Mao</div>
       <div class="sc-desc">Wide rice noodles stir-fried with chili sauce, broccoli, bell peppers, and Thai basil — famously bold heat.</div>
       <div class="sc-foot"><span class="sc-price">from $14.99</span><span class="pill pill-hot">Spicy</span></div>
+      <div class="sc-actions"><button class="sc-add-btn">Customize &amp; Add to Order +</button></div>
     </div>
 
-    <div class="spec-card fade-up">
+    <div class="spec-card fade-up" data-highlight="Goat Meat Curry">
       <div class="sc-cat">Burmese · Curry · Halal</div>
       <div class="sc-name">Goat Meat Curry</div>
       <div class="sc-desc">Onions, chili, curry paste, ginger, and lemongrass slow-cooked with tender goat — a Burmese soul dish.</div>
       <div class="sc-foot"><span class="sc-price">$17.99</span><span class="pill pill-hal">Halal</span></div>
+      <div class="sc-actions"><button class="sc-add-btn">Customize &amp; Add to Order +</button></div>
     </div>
 
-    <div class="spec-card fade-up">
+    <div class="spec-card fade-up" data-highlight="Savory Pancake">
       <div class="sc-cat">Thai · Entree</div>
       <div class="sc-name">Savory Pancake</div>
       <div class="sc-desc">Golden crispy pancake stuffed with shrimp, pork, onions, and bamboo shoots — a crowd-pleasing signature starter.</div>
       <div class="sc-foot"><span class="sc-price">$12.99</span><span class="pill pill-new">Must Try</span></div>
+      <div class="sc-actions"><button class="sc-add-btn">Customize &amp; Add to Order +</button></div>
     </div>
 
-    <div class="spec-card fade-up">
+    <div class="spec-card fade-up" data-highlight="Choo Chee Duck">
       <div class="sc-cat">Thai · Entree</div>
       <div class="sc-name">Choo Chee Duck</div>
       <div class="sc-desc">Deep-fried duck with bell peppers, onions, basil, and shiitake mushrooms in a special sauce, served on a bed of cabbage.</div>
       <div class="sc-foot"><span class="sc-price">$18.99</span><span class="pill pill-pop">Fan Favorite</span></div>
+      <div class="sc-actions"><button class="sc-add-btn">Customize &amp; Add to Order +</button></div>
     </div>
 
-    <div class="spec-card fade-up">
+    <div class="spec-card fade-up" data-highlight="Pad Thai">
       <div class="sc-cat">Thai · Noodle</div>
       <div class="sc-name">Pad Thai</div>
       <div class="sc-desc">Classic rice noodles stir-fried with egg, scallions, and savory sauce — Thailand's most iconic dish.</div>
       <div class="sc-foot"><span class="sc-price">from $14.99</span><span class="pill pill-pop">Bestseller</span></div>
+      <div class="sc-actions"><button class="sc-add-btn">Customize &amp; Add to Order +</button></div>
     </div>
 
-    <div class="spec-card fade-up">
+    <div class="spec-card fade-up" data-highlight="Chicken Satay">
       <div class="sc-cat">Thai · Appetizer</div>
       <div class="sc-name">Chicken Satay</div>
       <div class="sc-desc">Chicken marinated in Thai spices and coconut milk, grilled on bamboo skewers. Served as 5 pieces.</div>
       <div class="sc-foot"><span class="sc-price">$8.99</span><span class="pill pill-new">Must Try</span></div>
+      <div class="sc-actions"><button class="sc-add-btn">Customize &amp; Add to Order +</button></div>
     </div>
 
   </div>
@@ -2069,6 +2089,38 @@
         { label: 'Beef',    price: 15.99 },
       ], showSpice: true },
   };
+
+  // ═══════════════════════════════════════════════════════
+  // HOUSE HIGHLIGHTS — item config map + click wiring
+  // ═══════════════════════════════════════════════════════
+  const HIGHLIGHT_ITEMS = {
+    'Burmese Cup':     { name: 'Burmese Cup',        code: 'A1',   basePrice: 9.99,  showProtein: false,                              showSpice: false },
+    'Tea Leaf Salad':  { name: 'Tea Leaf Salad',     code: 'SL1',  basePrice: 12.99, showProtein: false,                              showSpice: false },
+    'Pad Kee Mao':     { name: 'Pad Kee Mao',        code: 'N3',   showProtein: true, proteinOptions: NOODLE_PROTEINS,                showSpice: true  },
+    'Goat Meat Curry': { name: 'Goat Meat Curry',    code: 'C-GM', basePrice: 17.99, showProtein: false,                              showSpice: true  },
+    'Savory Pancake':  { name: 'Savory Pancake',     code: 'E-SP', basePrice: 12.99, showProtein: false,                              showSpice: false },
+    'Choo Chee Duck':  { name: 'Choo Chee Duck',     code: 'E-CD', basePrice: 18.99, showProtein: false,                              showSpice: true  },
+    'Pad Thai':        { name: 'Pad Thai',            code: 'N1',   showProtein: true, proteinOptions: NOODLE_PROTEINS,                showSpice: true  },
+    'Chicken Satay':   { name: 'Chicken Satay',      code: 'A6',   basePrice: 8.99,  showProtein: false,                              showSpice: false },
+  };
+
+  document.querySelectorAll('.spec-card[data-highlight]').forEach(card => {
+    const key  = card.dataset.highlight;
+    const item = HIGHLIGHT_ITEMS[key];
+    if (!item) return;
+    const openModal = () => showOptsModal({
+      name:           item.name,
+      code:           item.code,
+      basePrice:      item.basePrice || 0,
+      showProtein:    item.showProtein,
+      proteinOptions: item.proteinOptions || [],
+      showSpice:      item.showSpice,
+    });
+    // Clicking the button OR the whole card opens the modal
+    card.addEventListener('click', openModal);
+    const btn = card.querySelector('.sc-add-btn');
+    if (btn) btn.addEventListener('click', e => { e.stopPropagation(); openModal(); });
+  });
 
   // Wire chip clicks
   document.querySelectorAll('.cc-chip[data-chip]').forEach(chip => {

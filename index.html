@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taste of Asia — Thai &amp; Burmese Restaurant | Buffalo, NY</title>
+  <meta name="description" content="Authentic Thai &amp; Burmese cuisine at 494 Elmwood Ave, Buffalo NY. Dine-in, takeout, Uber Eats &amp; DoorDash. Call 716-783-9666." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Karla:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & TOKENS ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:        #c9a84c;
+      --gold-lt:     #e0c06a;
+      --gold-dim:    rgba(201,168,76,0.13);
+      --gold-dim2:   rgba(201,168,76,0.06);
+      --red:         #b83030;
+      --red-dim:     rgba(184,48,48,0.14);
+      --teal:        #157a6e;
+      --teal-dim:    rgba(21,122,110,0.14);
+      --bg:          #0b0b0d;
+      --bg2:         #0f0f12;
+      --bg3:         #141418;
+      --surface:     #1a1a20;
+      --surface2:    #202028;
+      --border:      rgba(201,168,76,0.16);
+      --border-sub:  rgba(255,255,255,0.05);
+      --text:        #eee9e0;
+      --text2:       #c2b9a8;
+      --muted:       #887e70;
+      --dim:         #4a453e;
+      --nav-h:       68px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Karla', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--gold); color: #0b0b0d; }
+
+    /* ── SCROLL BAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute; top: -100px; left: 1rem; z-index: 9999;
+      background: var(--gold); color: #0b0b0d;
+      padding: .5rem 1rem; font-weight: 700; font-size: .8rem;
+      border-radius: 2px; text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ─────────────────────── NAV ─────────────────────── */
+    #nav {
+      position: fixed; top: 0; inset-inline: 0; z-index: 200;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5%, 4rem);
+      background: rgba(11,11,13,0.90);
+      backdrop-filter: blur(18px) saturate(1.2);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+
+    .logo { text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
+    .logo-main { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: .01em; }
+    .logo-sub  { font-size: .58rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+    .nav-links { display: flex; align-items: center; gap: .25rem; list-style: none; }
+    .nav-links a {
+      font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none; padding: .45rem .85rem; border-radius: 2px;
+      transition: color .2s, background .2s;
+    }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--text); outline: none; }
+    .nav-cta {
+      background: var(--gold) !important; color: #0b0b0d !important;
+      font-weight: 700 !important; margin-left: .5rem;
+    }
+    .nav-cta:hover { background: var(--gold-lt) !important; }
+
+    /* burger */
+    .burger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: .4rem; }
+    .burger span { display: block; width: 22px; height: 2px; background: var(--text2); border-radius: 2px; transition: .3s; }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* mobile menu */
+    #mobile-menu {
+      display: none;
+      position: fixed; top: var(--nav-h); inset-inline: 0; z-index: 199;
+      background: rgba(14,14,17,0.97); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem clamp(1.5rem, 5%, 4rem) 2rem;
+    }
+    #mobile-menu.open { display: block; }
+    #mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: .25rem; }
+    #mobile-menu a {
+      display: block; font-size: .85rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      padding: .65rem 0; border-bottom: 1px solid var(--border-sub);
+      transition: color .2s;
+    }
+    #mobile-menu a:hover { color: var(--gold); }
+    #mobile-menu .m-cta { color: var(--gold) !important; font-weight: 700 !important; border-bottom: none; }
+
+    /* ─────────────────────── HERO ─────────────────────── */
+    #hero {
+      min-height: 100dvh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: calc(var(--nav-h) + 4rem) clamp(1.5rem,5%,4rem) 5rem;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-canvas {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% 42%, rgba(201,168,76,.08) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 10% 80%, rgba(21,122,110,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 60% at 90% 20%, rgba(184,48,48,.05) 0%, transparent 55%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-deco {
+      position: absolute; font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(6rem, 14vw, 11rem); color: rgba(201,168,76,.035);
+      user-select: none; line-height: 1; pointer-events: none;
+    }
+    .hero-deco-l { left: -1%; top: 50%; transform: translateY(-52%); }
+    .hero-deco-r { right: -1%; top: 50%; transform: translateY(-52%); }
+
+    .hero-inner { position: relative; z-index: 1; max-width: 780px; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: .65rem; font-weight: 700; letter-spacing: .32em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1.6rem;
+    }
+    .eyebrow::before, .eyebrow::after { content: ''; width: 30px; height: 1px; background: var(--gold); opacity: .5; }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.6rem, 6.5vw, 5rem);
+      font-weight: 700; line-height: 1.1; color: var(--text); margin-bottom: .25em;
+    }
+    .hero-title em { color: var(--gold); font-style: italic; }
+
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(.95rem, 2vw, 1.25rem);
+      font-style: italic; color: var(--muted); margin-bottom: 1.6rem;
+    }
+
+    .hero-rule { width: 64px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 0 auto 1.6rem; }
+
+    .hero-desc { font-size: 1rem; color: var(--text2); max-width: 480px; margin: 0 auto 2.8rem; line-height: 1.85; }
+
+    .btn-row { display: flex; gap: .85rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: #0b0b0d;
+      font-family: 'Karla', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; padding: .85rem 2rem; border-radius: 2px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .btn-primary:hover, .btn-primary:focus-visible { background: var(--gold-lt); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,168,76,.22); outline: none; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text2);
+      font-family: 'Karla', sans-serif; font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      text-decoration: none; padding: .85rem 2rem; border: 1px solid var(--border); border-radius: 2px;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-outline:hover, .btn-outline:focus-visible { border-color: var(--gold); color: var(--gold); outline: none; }
+
+    .hero-badges {
+      display: flex; gap: 1.75rem; justify-content: center; flex-wrap: wrap;
+      margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border);
+    }
+    .hb { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .hb-num { font-family: 'Playfair Display', serif; font-size: 1.95rem; font-weight: 700; color: var(--gold); line-height: 1; }
+    .hb-lbl { font-size: .6rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+
+    /* ─────────────────────── INFO STRIP ─────────────────────── */
+    #info-strip {
+      background: var(--bg3);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center;
+    }
+    .is-item {
+      display: flex; align-items: center; gap: .85rem;
+      padding: 1.25rem clamp(1.25rem, 3vw, 2.5rem);
+      border-right: 1px solid var(--border-sub);
+      flex: 1; min-width: 220px;
+    }
+    .is-item:last-child { border-right: none; }
+    .is-icon {
+      width: 38px; height: 38px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--gold-dim); border-radius: 50%;
+    }
+    .is-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.7; }
+    .is-text {}
+    .is-label { font-size: .6rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); margin-bottom: 2px; }
+    .is-value { font-size: .83rem; font-weight: 500; color: var(--text2); }
+
+    /* ─────────────────────── SECTION COMMONS ─────────────────────── */
+    section { padding: 96px clamp(1.5rem, 5%, 4rem); }
+
+    .s-label {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: .62rem; font-weight: 700; letter-spacing: .28em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: .85rem;
+    }
+    .s-label::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+
+    .s-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.85rem, 3.5vw, 2.7rem); font-weight: 700;
+      color: var(--text); line-height: 1.2; margin-bottom: .8rem;
+    }
+    .s-title em { color: var(--gold); font-style: italic; }
+
+    .s-desc { font-size: .97rem; color: var(--muted); max-width: 520px; line-height: 1.82; }
+
+    .s-head { margin-bottom: 3.5rem; }
+    .s-head-row { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3.5rem; }
+
+    /* ─────────────────────── ABOUT / CUISINE ─────────────────────── */
+    #about { background: var(--bg2); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      margin-top: 3.5rem;
+    }
+
+    .cuisine-card {
+      position: relative; height: 420px; overflow: hidden; cursor: pointer;
+    }
+    .cc-bg { position: absolute; inset: 0; transition: transform .55s ease; }
+    .cuisine-card:hover .cc-bg { transform: scale(1.04); }
+
+    .cuisine-card:nth-child(1) .cc-bg {
+      background:
+        radial-gradient(ellipse at 55% 40%, rgba(201,168,76,.3) 0%, transparent 55%),
+        linear-gradient(150deg, #1c1508 0%, #0b0b0d 100%);
+    }
+    .cuisine-card:nth-child(2) .cc-bg {
+      background:
+        radial-gradient(ellipse at 45% 55%, rgba(21,122,110,.35) 0%, transparent 55%),
+        linear-gradient(150deg, #071a14 0%, #0b0b0d 100%);
+    }
+    .cc-dots {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,.022) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+    .cc-glyph {
+      position: absolute; top: 24px; right: 24px;
+      font-family: 'Playfair Display', serif; font-size: 5rem; font-style: italic;
+      color: rgba(255,255,255,.045); user-select: none; line-height: 1;
+    }
+    .cc-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 2rem 2rem 1.75rem;
+      background: linear-gradient(0deg, rgba(11,11,13,.96) 30%, transparent 100%);
+    }
+    .cc-tag {
+      display: inline-block; font-size: .56rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; padding: 3px 9px; border-radius: 20px; margin-bottom: .65rem;
+      border: 1px solid;
+    }
+    .cuisine-card:nth-child(1) .cc-tag { color: var(--gold); border-color: rgba(201,168,76,.5); }
+    .cuisine-card:nth-child(2) .cc-tag { color: #1fcfb4; border-color: rgba(31,207,180,.4); }
+    .cc-title { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 700; color: var(--text); margin-bottom: .45rem; }
+    .cc-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; margin-bottom: 1rem; }
+    .cc-items { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .cc-chip {
+      font-size: .62rem; font-weight: 600; letter-spacing: .05em;
+      padding: 3px 8px; border-radius: 2px; background: rgba(255,255,255,.06);
+      color: var(--text2); border: 1px solid var(--border-sub);
+    }
+
+    /* ─────────────────────── SPECIALS HIGHLIGHT ─────────────────────── */
+    #specials { background: var(--bg); }
+
+    .spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1px; background: var(--border); }
+
+    .spec-card {
+      background: var(--bg); padding: 1.75rem;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: background .2s;
+    }
+    .spec-card:hover { background: var(--surface); }
+    .spec-card::after {
+      content: ''; position: absolute; inset-block: 0; left: 0;
+      width: 2px; background: var(--gold); transform: scaleY(0);
+      transform-origin: bottom; transition: transform .3s ease;
+    }
+    .spec-card:hover::after { transform: scaleY(1); }
+
+    .sc-cat { font-size: .58rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); margin-bottom: .5rem; }
+    .sc-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600; color: var(--text); margin-bottom: .5rem; line-height: 1.3; }
+    .sc-desc { font-size: .8rem; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1.1rem; }
+    .sc-foot { display: flex; justify-content: space-between; align-items: center; }
+    .sc-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); }
+    .pill { font-size: .57rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; padding: 3px 7px; border-radius: 2px; }
+    .pill-pop  { background: var(--gold-dim); color: var(--gold); }
+    .pill-hot  { background: var(--red-dim); color: #e05050; }
+    .pill-new  { background: var(--teal-dim); color: #1fcfb4; }
+    .pill-hal  { background: rgba(201,168,76,.1); color: #d4b060; }
+    .pill-veg  { background: rgba(21,122,110,.13); color: #1fcfb4; }
+
+    /* ─────────────────────── MENU ─────────────────────── */
+    #menu { background: var(--bg2); }
+
+    /* tab bar */
+    .tab-bar {
+      display: flex; flex-wrap: wrap; gap: 0;
+      border-bottom: 1px solid var(--border); margin-bottom: 2.5rem;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tb-tab {
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); padding: .85rem 1.3rem; cursor: pointer;
+      border-bottom: 2px solid transparent; white-space: nowrap;
+      transition: color .2s, border-color .2s; user-select: none;
+      background: none; border-left: none; border-right: none; border-top: none;
+    }
+    .tb-tab:hover { color: var(--text2); }
+    .tb-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* menu note / callout */
+    .menu-callout {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--gold); border-radius: 0 3px 3px 0;
+      padding: .9rem 1.25rem; margin-bottom: 1.75rem;
+      font-size: .82rem; color: var(--muted); line-height: 1.7;
+    }
+    .menu-callout strong { color: var(--text); }
+
+    /* protein legend */
+    .price-legend { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1.75rem; }
+    .pl { font-size: .77rem; color: var(--muted); padding: .35rem .85rem; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; }
+    .pl strong { color: var(--gold); }
+
+    /* menu item list */
+    .menu-list { border: 1px solid var(--border); }
+    .mi-row {
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: flex-start; gap: 1rem;
+      padding: .9rem 1.2rem;
+      border-bottom: 1px solid var(--border-sub);
+      transition: background .15s;
+    }
+    .mi-row:last-child { border-bottom: none; }
+    .mi-row:hover { background: var(--surface); }
+    .mi-meta {}
+    .mi-code { font-size: .57rem; font-weight: 700; letter-spacing: .12em; color: var(--dim); margin-bottom: 2px; }
+    .mi-name { font-size: .88rem; font-weight: 600; color: var(--text); line-height: 1.3; margin-bottom: 3px; }
+    .mi-desc { font-size: .75rem; color: var(--muted); line-height: 1.55; }
+    .mi-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+    .mt { font-size: .54rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 2px 6px; border-radius: 2px; }
+    .mt-hot { background: var(--red-dim); color: #e05050; }
+    .mt-veg { background: var(--teal-dim); color: #1fcfb4; }
+    .mt-hal { background: rgba(201,168,76,.1); color: #d4b060; }
+    .mi-price { font-family: 'Playfair Display', serif; font-size: .9rem; font-weight: 700; color: var(--gold); white-space: nowrap; padding-top: 2px; }
+
+    /* 2-column item grid */
+    .menu-grid { border: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 700px) { .menu-grid { grid-template-columns: 1fr; } }
+    .mg-cell {
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: flex-start; gap: 1rem;
+      padding: .9rem 1.2rem;
+      border-bottom: 1px solid var(--border-sub);
+      border-right: 1px solid var(--border-sub);
+      transition: background .15s;
+    }
+    .mg-cell:nth-child(even) { border-right: none; }
+    .mg-cell:hover { background: var(--surface); }
+    .mg-cell .mi-price { font-size: .88rem; }
+
+    /* protein block */
+    .proto-block { border: 1px solid var(--border); margin-bottom: 1.25rem; }
+    .pb-head { padding: .85rem 1.2rem; background: var(--surface); border-bottom: 1px solid var(--border); }
+    .pb-name { font-size: .87rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .pb-desc { font-size: .75rem; color: var(--muted); line-height: 1.5; }
+    .pb-rows { display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 600px) { .pb-rows { grid-template-columns: 1fr; } }
+    .pb-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .65rem 1.2rem; border-bottom: 1px solid var(--border-sub);
+      border-right: 1px solid var(--border-sub); transition: background .15s;
+    }
+    .pb-row:nth-child(even) { border-right: none; }
+    .pb-row:hover { background: var(--surface2); }
+    .pb-label { font-size: .82rem; color: var(--text2); }
+    .pb-price { font-family: 'Playfair Display', serif; font-size: .88rem; font-weight: 700; color: var(--gold); }
+
+    /* sides simple list */
+    .sides-list { border: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 600px) { .sides-list { grid-template-columns: 1fr; } }
+    .sl-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .85rem 1.2rem; border-bottom: 1px solid var(--border-sub);
+      border-right: 1px solid var(--border-sub); transition: background .15s;
+    }
+    .sl-row:nth-child(even) { border-right: none; }
+    .sl-row:hover { background: var(--surface); }
+    .sl-name { font-size: .85rem; color: var(--text2); }
+    .sl-price { font-family: 'Playfair Display', serif; font-size: .88rem; font-weight: 700; color: var(--gold); }
+
+    /* ─────────────────────── HOURS & LOCATION ─────────────────────── */
+    #visit { background: var(--bg3); }
+
+    .visit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3.5rem; }
+    @media (max-width: 860px) { .visit-grid { grid-template-columns: 1fr; } }
+
+    .v-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 3px;
+      padding: 2rem 2.25rem;
+    }
+    .vc-head { display: flex; align-items: center; gap: .75rem; margin-bottom: 1.5rem; }
+    .vc-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--gold-dim); border-radius: 3px;
+    }
+    .vc-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.7; }
+    .vc-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+
+    .hours-row { display: flex; justify-content: space-between; align-items: center; padding: .6rem 0; border-bottom: 1px solid var(--border-sub); }
+    .hours-row:last-child { border-bottom: none; }
+    .hr-day { font-size: .82rem; font-weight: 600; color: var(--text2); }
+    .hr-time { font-size: .82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+    .contact-row { display: flex; align-items: flex-start; gap: .75rem; padding: .7rem 0; border-bottom: 1px solid var(--border-sub); }
+    .contact-row:last-child { border-bottom: none; }
+    .cr-icon { width: 30px; height: 30px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .cr-icon svg { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.8; }
+    .cr-label { font-size: .6rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+    .cr-val { font-size: .88rem; color: var(--text2); }
+    .cr-val a { color: var(--text2); text-decoration: none; transition: color .2s; }
+    .cr-val a:hover { color: var(--gold); }
+
+    .map-placeholder {
+      margin-top: 1.75rem; height: 200px; border-radius: 3px; overflow: hidden;
+      background: var(--bg); border: 1px solid var(--border);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .5rem; text-decoration: none;
+    }
+    .map-placeholder svg { width: 28px; height: 28px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .map-placeholder span { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .map-placeholder:hover .map-placeholder span { color: var(--gold); }
+
+    .order-row { display: flex; gap: .75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .order-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: .7rem 1.35rem; border-radius: 2px; text-decoration: none; border: 1px solid;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+    .ob-phone { background: var(--gold); color: #0b0b0d; border-color: var(--gold); }
+    .ob-phone:hover { background: var(--gold-lt); border-color: var(--gold-lt); }
+    .ob-uber  { background: transparent; color: var(--text2); border-color: var(--border); }
+    .ob-uber:hover  { border-color: var(--gold); color: var(--gold); }
+    .ob-door  { background: transparent; color: var(--text2); border-color: var(--border); }
+    .ob-door:hover  { border-color: var(--gold); color: var(--gold); }
+
+    /* ─────────────────────── FOOTER ─────────────────────── */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 3.5rem clamp(1.5rem, 5%, 4rem) 2.5rem;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 2rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo-main { font-size: 1.3rem; }
+    .footer-brand .logo-sub  { margin-top: 3px; }
+    .footer-tagline { font-size: .82rem; color: var(--muted); margin-top: .75rem; max-width: 220px; line-height: 1.65; }
+
+    .footer-links h4 { font-size: .62rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--dim); margin-bottom: .85rem; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+    .footer-links a { font-size: .82rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--border-sub); }
+    .footer-bottom p { font-size: .72rem; color: var(--dim); }
+
+    /* ─────────────────────── RESPONSIVE ─────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .burger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+      .cuisine-card { height: 340px; }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 64px clamp(1rem, 4%, 2rem); }
+      #hero { padding-top: calc(var(--nav-h) + 3rem); }
+      .hero-badges { gap: 1.25rem; }
+      .is-item { min-width: 100%; border-right: none; border-bottom: 1px solid var(--border-sub); }
+      .is-item:last-child { border-bottom: none; }
+      .spec-grid { grid-template-columns: 1fr; }
+      .v-card { padding: 1.5rem 1.25rem; }
+    }
+
+    /* ─────────────────────── ANIMATION ─────────────────────── */
+    @media (prefers-reduced-motion: no-preference) {
+      .fade-up { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+      .fade-up.visible { opacity: 1; transform: none; }
+      .fade-up:nth-child(2) { transition-delay: .07s; }
+      .fade-up:nth-child(3) { transition-delay: .14s; }
+      .fade-up:nth-child(4) { transition-delay: .21s; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+<nav id="nav" role="navigation" aria-label="Main navigation">
+  <a href="#hero" class="logo" aria-label="Taste of Asia — home">
+    <span class="logo-main">Taste of Asia</span>
+    <span class="logo-sub">Thai &amp; Burmese · Buffalo, NY</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Cuisine</a></li>
+    <li><a href="#specials">Highlights</a></li>
+    <li><a href="#menu">Full Menu</a></li>
+    <li><a href="#visit">Visit</a></li>
+    <li><a href="tel:7167839666" class="nav-cta">Order: 716-783-9666</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div id="mobile-menu" role="dialog" aria-label="Mobile navigation">
+  <ul>
+    <li><a href="#about">Cuisine</a></li>
+    <li><a href="#specials">Highlights</a></li>
+    <li><a href="#menu">Full Menu</a></li>
+    <li><a href="#visit">Visit Us</a></li>
+    <li><a href="tel:7167839666" class="m-cta">Call to Order: 716-783-9666</a></li>
+  </ul>
+</div>
+
+<main id="main">
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<section id="hero" aria-label="Welcome">
+  <div class="hero-canvas" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-deco hero-deco-l" aria-hidden="true">Thai</div>
+  <div class="hero-deco hero-deco-r" aria-hidden="true">Burma</div>
+
+  <div class="hero-inner">
+    <p class="eyebrow">Buffalo's Finest Asian Cuisine</p>
+    <h1 class="hero-title">
+      <em>Taste</em> of Asia
+    </h1>
+    <p class="hero-subtitle">Thai &amp; Burmese Restaurant</p>
+    <div class="hero-rule" aria-hidden="true"></div>
+    <p class="hero-desc">
+      Authentic flavors of Thailand and Burma, crafted with care and tradition.
+      Dine-in, takeout, and delivery — serving Buffalo's Elmwood Village since day one.
+    </p>
+    <div class="btn-row">
+      <a href="#menu" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        View Full Menu
+      </a>
+      <a href="tel:7167839666" class="btn-outline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        716-783-9666
+      </a>
+    </div>
+    <div class="hero-badges" aria-label="At a glance">
+      <div class="hb"><span class="hb-num">2</span><span class="hb-lbl">Cuisines</span></div>
+      <div class="hb"><span class="hb-num">80+</span><span class="hb-lbl">Menu Items</span></div>
+      <div class="hb"><span class="hb-num">4</span><span class="hb-lbl">Heat Levels</span></div>
+      <div class="hb"><span class="hb-num">6</span><span class="hb-lbl">Protein Options</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ INFO STRIP ═══════════════════════════════ -->
+<div id="info-strip" role="complementary" aria-label="Key info">
+  <div class="is-item">
+    <div class="is-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <div class="is-text">
+      <div class="is-label">Hours Today</div>
+      <div class="is-value" id="today-hours">Mon–Thu 11:30am–9:30pm</div>
+    </div>
+  </div>
+  <div class="is-item">
+    <div class="is-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    </div>
+    <div class="is-text">
+      <div class="is-label">Address</div>
+      <div class="is-value">494 Elmwood Ave, Buffalo NY 14222</div>
+    </div>
+  </div>
+  <div class="is-item">
+    <div class="is-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    </div>
+    <div class="is-text">
+      <div class="is-label">Parking</div>
+      <div class="is-value">Rear lot — enter from W Utica St</div>
+    </div>
+  </div>
+  <div class="is-item">
+    <div class="is-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </div>
+    <div class="is-text">
+      <div class="is-label">Order Online</div>
+      <div class="is-value">Uber Eats &amp; DoorDash</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ ABOUT / CUISINE ═══════════════════════════════ -->
+<section id="about" aria-labelledby="about-heading">
+  <div class="s-head">
+    <p class="s-label">Two Great Cuisines</p>
+    <h2 class="s-title" id="about-heading">Thai &amp; <em>Burmese</em> Traditions</h2>
+    <p class="s-desc">From the aromatic curries and noodle dishes of Thailand to the unique coconut-milk broths and crispy bites of Burma — every dish is made with bold, authentic flavors.</p>
+  </div>
+  <div class="about-grid">
+    <div class="cuisine-card" aria-label="Thai cuisine">
+      <div class="cc-bg"></div>
+      <div class="cc-dots" aria-hidden="true"></div>
+      <div class="cc-glyph" aria-hidden="true">Thai</div>
+      <div class="cc-body">
+        <span class="cc-tag">Thai Kitchen</span>
+        <h3 class="cc-title">Thai Flavors</h3>
+        <p class="cc-desc">Vibrant lemongrass, kaffir lime, Thai basil, and bird's eye chili — layers of bold aromatics in every dish.</p>
+        <div class="cc-items">
+          <span class="cc-chip">Pad Thai</span>
+          <span class="cc-chip">Green Curry</span>
+          <span class="cc-chip">Tom Yum</span>
+          <span class="cc-chip">Panang Curry</span>
+          <span class="cc-chip">Drunken Noodles</span>
+          <span class="cc-chip">Papaya Salad</span>
+        </div>
+      </div>
+    </div>
+    <div class="cuisine-card" aria-label="Burmese cuisine">
+      <div class="cc-bg"></div>
+      <div class="cc-dots" aria-hidden="true"></div>
+      <div class="cc-glyph" aria-hidden="true">Burma</div>
+      <div class="cc-body">
+        <span class="cc-tag">Burmese Kitchen</span>
+        <h3 class="cc-title">Burmese Traditions</h3>
+        <p class="cc-desc">Rich coconut milk broths, fermented tea leaves, and layered curry pastes unique to the Irrawaddy Delta.</p>
+        <div class="cc-items">
+          <span class="cc-chip">Khow Suey</span>
+          <span class="cc-chip">Tea Leaf Salad</span>
+          <span class="cc-chip">Burmese Cup</span>
+          <span class="cc-chip">Beef Curry</span>
+          <span class="cc-chip">Burmese Fried Rice</span>
+          <span class="cc-chip">MAMA Noodles</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ SPECIALS HIGHLIGHT ═══════════════════════════════ -->
+<section id="specials" aria-labelledby="specials-heading">
+  <div class="s-head-row">
+    <div>
+      <p class="s-label">Chef's Selection</p>
+      <h2 class="s-title" id="specials-heading">House <em>Highlights</em></h2>
+    </div>
+    <a href="#menu" class="btn-outline" style="font-size:.7rem;">View All Menu Items →</a>
+  </div>
+  <div class="spec-grid">
+
+    <div class="spec-card fade-up">
+      <div class="sc-cat">Burmese · Appetizer</div>
+      <div class="sc-name">Burmese Cup</div>
+      <div class="sc-desc">Nine crispy pastry cups: curry-seasoned chicken &amp; potato, pork with pineapple &amp; peanuts, and seasoned corn in pistachio sauce.</div>
+      <div class="sc-foot"><span class="sc-price">$9.99</span><span class="pill pill-pop">Fan Favorite</span></div>
+    </div>
+
+    <div class="spec-card fade-up">
+      <div class="sc-cat">Thai · Salad</div>
+      <div class="sc-name">Tea Leaf Salad</div>
+      <div class="sc-desc">Fermented tea leaves, cabbage, peanuts, sesame, garlic, chili, and lime. A signature Burmese classic, served vegetarian.</div>
+      <div class="sc-foot"><span class="sc-price">$12.99</span><span class="pill pill-veg">Vegetarian</span></div>
+    </div>
+
+    <div class="spec-card fade-up">
+      <div class="sc-cat">Burmese · Noodle Soup</div>
+      <div class="sc-name">Khow Suey</div>
+      <div class="sc-desc">Egg noodles bathed in a rich coconut milk curry broth, crowned with curried chicken and fresh aromatics.</div>
+      <div class="sc-foot"><span class="sc-price">$14.99</span><span class="pill pill-pop">Signature</span></div>
+    </div>
+
+    <div class="spec-card fade-up">
+      <div class="sc-cat">Thai · Noodle</div>
+      <div class="sc-name">Pad Kee Mao</div>
+      <div class="sc-desc">Wide rice noodles stir-fried with chili sauce, broccoli, bell peppers, and Thai basil — famously bold heat.</div>
+      <div class="sc-foot"><span class="sc-price">from $14.99</span><span class="pill pill-hot">Spicy</span></div>
+    </div>
+
+    <div class="spec-card fade-up">
+      <div class="sc-cat">Burmese · Curry · Halal</div>
+      <div class="sc-name">Goat Meat Curry</div>
+      <div class="sc-desc">Onions, chili, curry paste, ginger, and lemongrass slow-cooked with tender goat — a Burmese soul dish.</div>
+      <div class="sc-foot"><span class="sc-price">$17.99</span><span class="pill pill-hal">Halal</span></div>
+    </div>
+
+    <div class="spec-card fade-up">
+      <div class="sc-cat">Thai · Entree</div>
+      <div class="sc-name">Savory Pancake</div>
+      <div class="sc-desc">Golden crispy pancake stuffed with shrimp, pork, onions, and bamboo shoots — a crowd-pleasing signature starter.</div>
+      <div class="sc-foot"><span class="sc-price">$12.99</span><span class="pill pill-new">Must Try</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FULL MENU ═══════════════════════════════ -->
+<section id="menu" aria-labelledby="menu-heading">
+  <div class="s-head">
+    <p class="s-label">Full Menu</p>
+    <h2 class="s-title" id="menu-heading">Everything We <em>Serve</em></h2>
+    <p class="s-desc">All items can be made mild, medium, hot, or extra-hot. Protein options throughout: chicken, pork, beef, shrimp, tofu, or vegetables.</p>
+  </div>
+
+  <!-- TAB BAR -->
+  <div class="tab-bar" role="tablist" aria-label="Menu categories">
+    <button class="tb-tab active" role="tab" aria-selected="true"  aria-controls="p-lunch"    id="t-lunch">Lunch Specials</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-apps"     id="t-apps">Appetizers</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-salads"   id="t-salads">Salads</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-curries"  id="t-curries">Curries</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-frice"    id="t-frice">Fried Rice</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-noodles"  id="t-noodles">Noodles</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-entrees"  id="t-entrees">Entrees</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-soups"    id="t-soups">Soups</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-sides"    id="t-sides">Sides &amp; Drinks</button>
+    <button class="tb-tab"        role="tab" aria-selected="false" aria-controls="p-desserts" id="t-desserts">Desserts</button>
+  </div>
+
+  <!-- ─── LUNCH SPECIALS ─── -->
+  <div class="tab-panel active" id="p-lunch" role="tabpanel" aria-labelledby="t-lunch">
+    <div class="menu-callout">
+      <strong>Lunch Specials — $10.99 each</strong> · Served Monday–Friday 12pm–3pm.<br>
+      Comes with your choice of <strong>soup or spring roll</strong> · Served with rice (excludes noodle and soup dishes).<br>
+      Choice of protein: chicken, pork, beef, shrimp, tofu, or vegetables · Heat: mild, medium, hot, or extra-hot.
+    </div>
+    <div class="menu-grid">
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L1</div><div class="mi-name">Pad Thai</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L2</div><div class="mi-name">Pad Kee Mao</div><div class="mi-desc">Stir-fried noodles</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L3</div><div class="mi-name">Rad Na</div><div class="mi-desc">Thai rice noodles</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L4</div><div class="mi-name">Pad See Ew</div><div class="mi-desc">Soy-sauce noodles</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L5</div><div class="mi-name">Basil Fried Rice</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L6</div><div class="mi-name">String Bean Stir Fry</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L7</div><div class="mi-name">Tom Yum Fried Rice</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L8</div><div class="mi-name">Red Curry</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L9</div><div class="mi-name">Green Curry</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L10</div><div class="mi-name">Yellow Curry</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L11</div><div class="mi-name">Panang Curry</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L12</div><div class="mi-name">Chicken Noodle Soup</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L13</div><div class="mi-name">Bami Soup</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L14</div><div class="mi-name">Vietnamese Vermicelli</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mg-cell"><div class="mi-meta"><div class="mi-code">L15</div><div class="mi-name">Khow Suey</div><div class="mi-desc">Burmese noodles</div></div><div class="mi-price">$10.99</div></div>
+    </div>
+  </div>
+
+  <!-- ─── APPETIZERS ─── -->
+  <div class="tab-panel" id="p-apps" role="tabpanel" aria-labelledby="t-apps">
+    <div class="menu-list">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A1</div><div class="mi-name">Burmese Cup</div><div class="mi-desc">9 crispy pastry cups: curry chicken &amp; potato, pork with pineapple &amp; peanuts, corn in pistachio sauce</div></div><div class="mi-price">$9.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A2</div><div class="mi-name">Potstickers</div><div class="mi-desc">Steamed dumplings with chicken, water chestnuts, and bell peppers, with soy sauce</div></div><div class="mi-price">$7.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A3</div><div class="mi-name">Burmese Spring Special Rolls</div><div class="mi-desc">Rice paper rolls with shrimp, pork sausage, cucumbers, tofu, bean sprouts, and crab meat</div></div><div class="mi-price">$10.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A4</div><div class="mi-name">Spring Rolls</div><div class="mi-desc">Chicken, glass noodles, onion, carrots, and taro deep-fried in a roll</div></div><div class="mi-price">$6.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A5</div><div class="mi-name">Vegetarian Spring Rolls</div><div class="mi-desc">Glass noodles, onion, carrots, cabbage, and taro deep-fried in a roll</div><div class="mi-tags"><span class="mt mt-veg">Vegan</span></div></div><div class="mi-price">$6.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A6</div><div class="mi-name">Chicken Satay <small style="font-weight:400;color:var(--dim)">(5 pc)</small></div><div class="mi-desc">Marinated in Thai spices and coconut milk, grilled on bamboo skewers</div></div><div class="mi-price">$8.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A7</div><div class="mi-name">Beef Satay <small style="font-weight:400;color:var(--dim)">(5 pc)</small></div><div class="mi-desc">Beef marinated in Thai spices and coconut milk, grilled on bamboo skewers</div></div><div class="mi-price">$8.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A8</div><div class="mi-name">Fish Cake</div><div class="mi-desc">Deep-fried fish patties mixed with curry paste</div></div><div class="mi-price">$6.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A9</div><div class="mi-name">Fried Calamari</div><div class="mi-desc">Fried squid</div></div><div class="mi-price">$8.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A10</div><div class="mi-name">Tempura</div><div class="mi-desc">Assorted veggies and tofu deep-fried</div><div class="mi-tags"><span class="mt mt-veg">Vegetarian</span></div></div><div class="mi-price">$8.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A11</div><div class="mi-name">Savory Pancake</div><div class="mi-desc">Crispy pancake stuffed with shrimp, pork, onions, and bamboo</div></div><div class="mi-price">$12.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A12</div><div class="mi-name">Dumpling</div><div class="mi-desc">Ground pork wrapped and fried or steamed</div></div><div class="mi-price">$8.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A13</div><div class="mi-name">Crab Meat Rangoon</div><div class="mi-desc">Crab, cream cheese, and seasoning stuffed in a dumpling and fried</div></div><div class="mi-price">$8.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">A14</div><div class="mi-name">Fried Tofu <small style="font-weight:400;color:var(--dim)">(8 pc)</small></div><div class="mi-desc">Comes with a peanut sauce</div><div class="mi-tags"><span class="mt mt-veg">Vegan</span></div></div><div class="mi-price">$8.99</div></div>
+    </div>
+  </div>
+
+  <!-- ─── SALADS ─── -->
+  <div class="tab-panel" id="p-salads" role="tabpanel" aria-labelledby="t-salads">
+    <div class="menu-list">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">SL1</div><div class="mi-name">Tea Leaf Salad</div><div class="mi-desc">Tea leaves, cabbage, peanuts, crunchy beans, sesame, garlic, chili, lime, and tomatoes</div><div class="mi-tags"><span class="mt mt-veg">Vegetarian</span></div></div><div class="mi-price">$12.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">SL2</div><div class="mi-name">Papaya Salad</div><div class="mi-desc">Shredded green papaya, green beans, peanuts, tomatoes, lime, and chili. Can be made vegetarian without fish sauce.</div></div><div class="mi-price">$12.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">SL3</div><div class="mi-name">Yum Yai Salad</div><div class="mi-desc">Shrimp, chicken, red bell peppers, boiled eggs, cucumber, and crispy onions on romaine lettuce</div></div><div class="mi-price">$13.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">SL4</div><div class="mi-name">Glass Noodle Salad</div><div class="mi-desc">Shrimp, chicken, tomatoes, scallions, and glass noodles on romaine lettuce</div></div><div class="mi-price">$13.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">SL5</div><div class="mi-name">Spicy Beef Salad</div><div class="mi-desc">Chili, red onion, scallions, lime juice, toasted rice powder, and beef on romaine lettuce</div><div class="mi-tags"><span class="mt mt-hot">Spicy</span></div></div><div class="mi-price">$15.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">SL6</div><div class="mi-name">Spicy Shrimp Salad</div><div class="mi-desc">Shrimp, red onions, scallions, lemongrass, lime juice, tomatoes, and cucumbers on romaine</div><div class="mi-tags"><span class="mt mt-hot">Spicy</span></div></div><div class="mi-price">$14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">SL7</div><div class="mi-name">Crispy Catfish Salad</div><div class="mi-desc">Catfish, red onions, cashews, and shredded mango on romaine lettuce</div></div><div class="mi-price">$14.99</div></div>
+    </div>
+  </div>
+
+  <!-- ─── CURRIES ─── -->
+  <div class="tab-panel" id="p-curries" role="tabpanel" aria-labelledby="t-curries">
+    <div class="menu-callout">
+      <strong>Note:</strong> Curries come with your choice of brown or white rice. Heat level: hot, medium, or mild.
+    </div>
+    <div class="price-legend">
+      <span class="pl"><strong>Chicken, Pork, or Tofu</strong> $14.99</span>
+      <span class="pl"><strong>Beef</strong> $15.99</span>
+      <span class="pl"><strong>Seafood (Shrimp, Mussels, Scallops, Squid)</strong> $16.99</span>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-head">
+        <div class="pb-name">C1 — Red Curry</div>
+        <div class="pb-desc">Curry made with coconut milk, green peppers, bamboo, and Thai basil</div>
+      </div>
+      <div class="pb-rows">
+        <div class="pb-row"><span class="pb-label">Chicken / Pork / Tofu</span><span class="pb-price">$14.99</span></div>
+        <div class="pb-row"><span class="pb-label">Beef</span><span class="pb-price">$15.99</span></div>
+        <div class="pb-row"><span class="pb-label">Seafood</span><span class="pb-price">$16.99</span></div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-head">
+        <div class="pb-name">C2 — Green Curry</div>
+        <div class="pb-desc">Curry made with coconut milk, eggplant, red peppers, and Thai basil</div>
+      </div>
+      <div class="pb-rows">
+        <div class="pb-row"><span class="pb-label">Chicken / Pork / Tofu</span><span class="pb-price">$14.99</span></div>
+        <div class="pb-row"><span class="pb-label">Beef</span><span class="pb-price">$15.99</span></div>
+        <div class="pb-row"><span class="pb-label">Seafood</span><span class="pb-price">$16.99</span></div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-head">
+        <div class="pb-name">C3 — Yellow Curry</div>
+        <div class="pb-desc">Curry made with coconut milk, potatoes, yellow squash, carrots, and onions</div>
+      </div>
+      <div class="pb-rows">
+        <div class="pb-row"><span class="pb-label">Chicken / Pork / Tofu</span><span class="pb-price">$14.99</span></div>
+        <div class="pb-row"><span class="pb-label">Beef</span><span class="pb-price">$15.99</span></div>
+        <div class="pb-row"><span class="pb-label">Seafood</span><span class="pb-price">$16.99</span></div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-head">
+        <div class="pb-name">C4 — Panang Curry</div>
+        <div class="pb-desc">Curry made with coconut milk, red and green peppers, peanuts, and lime leaves</div>
+      </div>
+      <div class="pb-rows">
+        <div class="pb-row"><span class="pb-label">Chicken / Pork / Tofu</span><span class="pb-price">$14.99</span></div>
+        <div class="pb-row"><span class="pb-label">Beef</span><span class="pb-price">$15.99</span></div>
+        <div class="pb-row"><span class="pb-label">Seafood</span><span class="pb-price">$16.99</span></div>
+      </div>
+    </div>
+
+    <div class="menu-list">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">C5</div><div class="mi-name">Pineapple Seafood Curry</div><div class="mi-desc">Shrimp, sea scallops, and pineapple in coconut milk with a red curry base</div></div><div class="mi-price">$16.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">C6</div><div class="mi-name">Goat Meat Curry</div><div class="mi-desc">Onions, chili, curry paste, ginger, lemongrass with goat meat</div><div class="mi-tags"><span class="mt mt-hal">Halal</span></div></div><div class="mi-price">$17.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">C7</div><div class="mi-name">Burmese Beef Curry</div><div class="mi-desc">Onions, chili, curry paste, ginger, lemongrass minced and cooked with beef</div><div class="mi-tags"><span class="mt mt-hal">Halal</span></div></div><div class="mi-price">$15.99</div></div>
+    </div>
+  </div>
+
+  <!-- ─── FRIED RICE ─── -->
+  <div class="tab-panel" id="p-frice" role="tabpanel" aria-labelledby="t-frice">
+    <div class="proto-block">
+      <div class="pb-head">
+        <div class="pb-name">F1 — Thai Basil Fried Rice</div>
+        <div class="pb-desc">Fried rice with egg, bell peppers, carrots, and onions</div>
+      </div>
+      <div class="pb-rows">
+        <div class="pb-row"><span class="pb-label">Chicken or Pork</span><span class="pb-price">$14.99</span></div>
+        <div class="pb-row"><span class="pb-label">Beef</span><span class="pb-price">$15.99</span></div>
+        <div class="pb-row"><span class="pb-label">Shrimp</span><span class="pb-price">$16.99</span></div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-head">
+        <div class="pb-name">F2 — Pineapple Fried Rice</div>
+        <div class="pb-desc">Fried rice with pineapple, onions, cashews, snow peas, and assorted vegetables</div>
+      </div>
+      <div class="pb-rows">
+        <div class="pb-row"><span class="pb-label">Chicken or Pork</span><span class="pb-price">$14.99</span></div>
+        <div class="pb-row"><span class="pb-label">Beef</span><span class="pb-price">$15.99</span></div>
+        <div class="pb-row"><span class="pb-label">Shrimp</span><span class="pb-price">$16.99</span></div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-head">
+        <div class="pb-name">F3 — Burmese Fried Rice</div>
+        <div class="pb-desc">Fried rice with egg, onions, scallions, and beans</div>
+      </div>
+      <div class="pb-rows">
+        <div class="pb-row"><span class="pb-label">Chicken or Pork</span><span class="pb-price">$14.99</span></div>
+        <div class="pb-row"><span class="pb-label">Beef</span><span class="pb-price">$15.99</span></div>
+        <div class="pb-row"><span class="pb-label">Shrimp</span><span class="pb-price">$16.99</span></div>
+      </div>
+    </div>
+
+    <div class="proto-block">
+      <div class="pb-head">
+        <div class="pb-name">F6 — Tom Yum Fried Rice</div>
+        <div class="pb-desc">Fried rice with tom yum paste, tomatoes, scallions, and egg</div>
+      </div>
+      <div class="pb-rows">
+        <div class="pb-row"><span class="pb-label">Chicken or Pork</span><span class="pb-price">$14.99</span></div>
+        <div class="pb-row"><span class="pb-label">Beef</span><span class="pb-price">$15.99</span></div>
+        <div class="pb-row"><span class="pb-label">Shrimp</span><span class="pb-price">$16.99</span></div>
+      </div>
+    </div>
+
+    <div class="menu-list">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">F4</div><div class="mi-name">Crab Fried Rice</div><div class="mi-desc">Fried rice with crab meat, onions, and scallions, served with cucumbers and tomatoes</div></div><div class="mi-price">$16.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">F5</div><div class="mi-name">Vegetable or Tofu Fried Rice</div><div class="mi-desc">Fried rice with vegetables/tofu, onions, and scallions</div><div class="mi-tags"><span class="mt mt-veg">Vegan</span></div></div><div class="mi-price">$14.99</div></div>
+    </div>
+  </div>
+
+  <!-- ─── NOODLES ─── -->
+  <div class="tab-panel" id="p-noodles" role="tabpanel" aria-labelledby="t-noodles">
+    <div class="price-legend">
+      <span class="pl"><strong>Chicken or Pork</strong> $14.99</span>
+      <span class="pl"><strong>Beef</strong> $15.99</span>
+      <span class="pl"><strong>Shrimp / Squid / Sea Scallops</strong> $16.99</span>
+      <span class="pl"><strong>Seafood Combination</strong> $18.99</span>
+      <span class="pl"><strong>Tofu / Vegetable</strong> $14.99</span>
+    </div>
+    <div class="menu-list">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">N1</div><div class="mi-name">Pad Thai</div><div class="mi-desc">Rice noodles, scallions, egg, stir-fried with sauce</div></div><div class="mi-price">from $14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">N2</div><div class="mi-name">Pad See Ew</div><div class="mi-desc">Rice noodles stir-fried with soy sauce, broccoli, and egg</div></div><div class="mi-price">from $14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">N3</div><div class="mi-name">Pad Kee Mao</div><div class="mi-desc">Spicy rice noodles stir-fried with chili sauce, broccoli, bell peppers, and Thai basil (no alcohol)</div><div class="mi-tags"><span class="mt mt-hot">Spicy</span></div></div><div class="mi-price">from $14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">N4</div><div class="mi-name">Pad Woon Sen</div><div class="mi-desc">Stir-fried glass noodles with bell peppers, scallions, and onions</div></div><div class="mi-price">from $14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">N5</div><div class="mi-name">Rad Na</div><div class="mi-desc">Stir-fried rice noodles with broccoli, carrots, baby corn, and sauce</div></div><div class="mi-price">from $14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">N6</div><div class="mi-name">Vietnamese Vermicelli Noodles</div><div class="mi-desc">Rice noodles with bean sprouts, romaine lettuce, peanuts, cucumber, and basil. Can be served spring roll-style.</div></div><div class="mi-price">from $14.99</div></div>
+    </div>
+  </div>
+
+  <!-- ─── ENTREES ─── -->
+  <div class="tab-panel" id="p-entrees" role="tabpanel" aria-labelledby="t-entrees">
+    <div class="menu-callout"><strong>All entrees</strong> come with a side of brown or white rice.</div>
+
+    <!-- Noodle Soups -->
+    <p class="s-label" style="margin-bottom:1rem;">Noodle Soups</p>
+    <div class="menu-list" style="margin-bottom:1.75rem;">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">NS1</div><div class="mi-name">Khow Suey (Burmese Noodles)</div><div class="mi-desc">Egg noodles in coconut milk with curried chicken (protein can be replaced)</div></div><div class="mi-price">$14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">NS2</div><div class="mi-name">Chicken Noodle Soup</div><div class="mi-desc">Chicken and noodles with sesame oil, topped with scallions, fried onions, and bean sprouts</div></div><div class="mi-price">$14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">NS3</div><div class="mi-name">Bami Soup</div><div class="mi-desc">Egg noodles, bok choy, green onions, fried onions, char siu with sesame oil</div></div><div class="mi-price">$14.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">NS4</div><div class="mi-name">Beef Noodle Soup</div><div class="mi-desc">Egg noodles, bean sprouts, beef, meatballs, green onions, and fried onions in broth, with lime and Thai basil</div></div><div class="mi-price">$15.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">NS5</div><div class="mi-name">Burmese Noodles (MAMA)</div><div class="mi-desc">Mama noodles with bean sprouts, green onions, egg, and a protein of your choice (pork or chicken) · Beef $15.99</div></div><div class="mi-price">$14.99</div></div>
+    </div>
+
+    <!-- Main Entrees -->
+    <p class="s-label" style="margin-bottom:1rem;">Main Entrees</p>
+    <div class="menu-list">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E1</div><div class="mi-name">Choo Chee Duck</div><div class="mi-desc">Deep-fried duck with bell peppers, onions, basil, and shiitake mushrooms in a special sauce, on a bed of cabbage</div></div><div class="mi-price">$18.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E2</div><div class="mi-name">Grilled Big Prawns</div><div class="mi-desc">Large prawns (3) over steamed vegetables in a red curry sauce</div></div><div class="mi-price">$19.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E3</div><div class="mi-name">Grilled Sea Bass</div><div class="mi-desc">Sea bass over steamed vegetables, topped with mango strips and lemongrass sauce</div></div><div class="mi-price">$19.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E4</div><div class="mi-name">Grilled Salmon</div><div class="mi-desc">Salmon over steamed vegetables with bell peppers, topped with mango strips and lemongrass sauce</div></div><div class="mi-price">$19.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E5</div><div class="mi-name">General Tao's Chicken or Tofu</div></div><div class="mi-price">$16.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E6</div><div class="mi-name">Sesame Chicken or Tofu</div></div><div class="mi-price">$16.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E7</div><div class="mi-name">Orange Chicken or Tofu</div></div><div class="mi-price">$16.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E8</div><div class="mi-name">With Broccoli</div><div class="mi-desc">Pork or Chicken $15.99 · Beef $16.99 · Shrimp $17.99</div></div><div class="mi-price">from $15.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E9</div><div class="mi-name">Fried Chicken Wings <small style="font-weight:400;color:var(--dim)">(7 pc)</small></div></div><div class="mi-price">$16.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E10</div><div class="mi-name">Coconut Shrimp</div><div class="mi-desc">Fried coconut shrimp on steamed vegetables with a special sauce</div></div><div class="mi-price">$19.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">E11</div><div class="mi-name">Soft Shell Crab</div><div class="mi-desc">Deep fried soft shell crab with eggplant, basil, onions, garlic, and chillies</div></div><div class="mi-price">$18.99</div></div>
+    </div>
+  </div>
+
+  <!-- ─── SOUPS ─── -->
+  <div class="tab-panel" id="p-soups" role="tabpanel" aria-labelledby="t-soups">
+    <div class="menu-list">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">S1</div><div class="mi-name">Tom Yum Shrimp</div><div class="mi-desc">Tom Yum soup with shrimp, mushrooms, and lemongrass</div></div><div class="mi-price">$6.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">S2</div><div class="mi-name">Tom Yum Seafood</div><div class="mi-desc">Tom Yum soup with shrimp, scallops, mussels, mushrooms, and lemongrass</div></div><div class="mi-price">$7.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">S3</div><div class="mi-name">Tofu Soup</div><div class="mi-desc">Mixed vegetables with tofu</div><div class="mi-tags"><span class="mt mt-veg">Vegan</span></div></div><div class="mi-price">$6.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">S4</div><div class="mi-name">Dumpling Soup</div><div class="mi-desc">Bok choy, pork wontons, and char siu topped with green onion and fried onions</div></div><div class="mi-price">$6.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">S5</div><div class="mi-name">Vietnamese Hot &amp; Sour Soup</div><div class="mi-desc">Bean sprouts, bell peppers, pineapple, tomatoes, basil, and celery</div></div><div class="mi-price">$6.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">S6</div><div class="mi-name">Shrimp Wonton Soup</div><div class="mi-desc">Shrimp wontons with green and fried onions</div></div><div class="mi-price">$6.99</div></div>
+    </div>
+  </div>
+
+  <!-- ─── SIDES & DRINKS & DESSERTS ─── -->
+  <div class="tab-panel" id="p-sides" role="tabpanel" aria-labelledby="t-sides">
+    <p class="s-label" style="margin-bottom:1rem;">Sides &amp; Extras</p>
+    <div class="sides-list" style="margin-bottom:2rem;">
+      <div class="sl-row"><span class="sl-name">White Rice</span><span class="sl-price">$2.99</span></div>
+      <div class="sl-row"><span class="sl-name">Brown Rice</span><span class="sl-price">$3.99</span></div>
+      <div class="sl-row"><span class="sl-name">Steamed Vegetable</span><span class="sl-price">$3.99</span></div>
+      <div class="sl-row"><span class="sl-name">Curry Sauce</span><span class="sl-price">$4.99</span></div>
+      <div class="sl-row"><span class="sl-name">Sticky Rice</span><span class="sl-price">$4.99</span></div>
+      <div class="sl-row"><span class="sl-name">Noodle or Glass Noodle</span><span class="sl-price">$4.99</span></div>
+      <div class="sl-row"><span class="sl-name">Egg (Boiled or Fried)</span><span class="sl-price">$1.99</span></div>
+    </div>
+
+    <p class="s-label" style="margin-bottom:1rem;">Beverages</p>
+    <div class="sides-list">
+      <div class="sl-row"><span class="sl-name">Thai Iced Tea</span><span class="sl-price">$3.99</span></div>
+      <div class="sl-row"><span class="sl-name">Iced Coffee</span><span class="sl-price">$3.99</span></div>
+      <div class="sl-row"><span class="sl-name">Lemongrass Tea</span><span class="sl-price">$3.99</span></div>
+      <div class="sl-row"><span class="sl-name">Hot Tea</span><span class="sl-price">$2.99</span></div>
+      <div class="sl-row"><span class="sl-name">Ginger Tea</span><span class="sl-price">$3.99</span></div>
+    </div>
+  </div>
+
+  <!-- ─── DESSERTS ─── -->
+  <div class="tab-panel" id="p-desserts" role="tabpanel" aria-labelledby="t-desserts">
+    <div class="menu-list">
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">D1</div><div class="mi-name">Pumpkin Custard</div></div><div class="mi-price">$7.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">D2</div><div class="mi-name">Steamed Sweet Sticky Rice with Banana</div></div><div class="mi-price">$6.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">D3</div><div class="mi-name">Crispy Banana Rolls <small style="font-weight:400;color:var(--dim)">(7 rolls)</small></div></div><div class="mi-price">$7.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">D4</div><div class="mi-name">Crispy Banana Rolls with Ice Cream</div><div class="mi-desc">2 scoops of ice cream with 2 banana rolls</div></div><div class="mi-price">$7.99</div></div>
+      <div class="mi-row"><div class="mi-meta"><div class="mi-code">D5</div><div class="mi-name">Ice Cream <small style="font-weight:400;color:var(--dim)">(3 scoops)</small></div></div><div class="mi-price">$6.99</div></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════ VISIT ═══════════════════════════════ -->
+<section id="visit" aria-labelledby="visit-heading">
+  <div class="s-head">
+    <p class="s-label">Find Us</p>
+    <h2 class="s-title" id="visit-heading">Hours &amp; <em>Location</em></h2>
+    <p class="s-desc">Conveniently located on Elmwood Ave in Buffalo's vibrant Elmwood Village neighborhood.</p>
+  </div>
+
+  <div class="visit-grid">
+    <!-- Hours -->
+    <div class="v-card">
+      <div class="vc-head">
+        <div class="vc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3 class="vc-title">Hours</h3>
+      </div>
+      <div class="hours-row"><span class="hr-day">Monday – Thursday</span><span class="hr-time">11:30am – 9:30pm</span></div>
+      <div class="hours-row"><span class="hr-day">Friday – Saturday</span><span class="hr-time">11:30am – 10:00pm</span></div>
+      <div class="hours-row"><span class="hr-day">Sunday</span><span class="hr-time">12:30pm – 9:30pm</span></div>
+      <div style="margin-top:1.5rem;">
+        <p style="font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem;">Lunch Specials</p>
+        <p style="font-size:.83rem;color:var(--text2);">Mon – Fri &nbsp;·&nbsp; 12:00pm – 3:00pm &nbsp;·&nbsp; $10.99</p>
+      </div>
+      <div class="order-row">
+        <a href="tel:7167839666" class="order-btn ob-phone">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Call to Order
+        </a>
+        <a href="https://www.ubereats.com" class="order-btn ob-uber" target="_blank" rel="noopener noreferrer">Uber Eats</a>
+        <a href="https://www.doordash.com" class="order-btn ob-door" target="_blank" rel="noopener noreferrer">DoorDash</a>
+      </div>
+    </div>
+
+    <!-- Contact & Location -->
+    <div class="v-card">
+      <div class="vc-head">
+        <div class="vc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3 class="vc-title">Contact &amp; Location</h3>
+      </div>
+      <div class="contact-row">
+        <div class="cr-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div>
+          <div class="cr-label">Address</div>
+          <div class="cr-val">494 Elmwood Ave, Buffalo, NY 14222</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="cr-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div>
+          <div class="cr-label">Phone</div>
+          <div class="cr-val"><a href="tel:7167839666">716-783-9666</a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="cr-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <div>
+          <div class="cr-label">Fax</div>
+          <div class="cr-val">716-783-9340</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="cr-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div>
+          <div class="cr-label">Parking</div>
+          <div class="cr-val">Rear parking lot — enter from West Utica Street by Bus Stand</div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="cr-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div>
+          <div class="cr-label">Service</div>
+          <div class="cr-val">Dine-in &amp; Takeout · Uber Eats &amp; DoorDash</div>
+        </div>
+      </div>
+      <a href="https://maps.google.com/?q=494+Elmwood+Ave+Buffalo+NY+14222" class="map-placeholder" target="_blank" rel="noopener noreferrer" aria-label="Open in Google Maps">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Open in Google Maps</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#hero" class="logo">
+        <span class="logo-main">Taste of Asia</span>
+        <span class="logo-sub">Thai &amp; Burmese · Buffalo, NY</span>
+      </a>
+      <p class="footer-tagline">Authentic Thai &amp; Burmese cuisine in the heart of Buffalo's Elmwood Village.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#menu">Lunch Specials</a></li>
+        <li><a href="#menu">Appetizers</a></li>
+        <li><a href="#menu">Curries</a></li>
+        <li><a href="#menu">Noodles</a></li>
+        <li><a href="#menu">Entrees</a></li>
+        <li><a href="#menu">Desserts</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Visit</h4>
+      <ul>
+        <li><a href="#visit">Hours</a></li>
+        <li><a href="#visit">Location</a></li>
+        <li><a href="tel:7167839666">716-783-9666</a></li>
+        <li><a href="https://www.ubereats.com" target="_blank" rel="noopener noreferrer">Uber Eats</a></li>
+        <li><a href="https://www.doordash.com" target="_blank" rel="noopener noreferrer">DoorDash</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Taste of Asia. 494 Elmwood Ave, Buffalo NY 14222.</p>
+    <p style="color:var(--dim);">Thai &amp; Burmese Restaurant</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════ SCRIPTS ═══════════════════════════════ -->
+<script>
+  // ── BURGER MENU ──
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  burger.addEventListener('click', () => {
+    const open = burger.classList.toggle('open');
+    burger.setAttribute('aria-expanded', String(open));
+    mobileMenu.classList.toggle('open', open);
+  });
+
+  // Close mobile menu on link click
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // ── TABS ──
+  const tabs = document.querySelectorAll('.tb-tab');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(tab.getAttribute('aria-controls')).classList.add('active');
+    });
+    // keyboard nav
+    tab.addEventListener('keydown', e => {
+      const list = [...tabs];
+      const idx = list.indexOf(tab);
+      if (e.key === 'ArrowRight') { list[(idx + 1) % list.length].focus(); }
+      if (e.key === 'ArrowLeft')  { list[(idx - 1 + list.length) % list.length].focus(); }
+    });
+  });
+
+  // ── HOURS DISPLAY ──
+  const dayHours = [
+    'Sun: 12:30pm – 9:30pm',
+    'Mon – Thu: 11:30am – 9:30pm',
+    'Mon – Thu: 11:30am – 9:30pm',
+    'Mon – Thu: 11:30am – 9:30pm',
+    'Mon – Thu: 11:30am – 9:30pm',
+    'Fri – Sat: 11:30am – 10:00pm',
+    'Fri – Sat: 11:30am – 10:00pm',
+  ];
+  const todayEl = document.getElementById('today-hours');
+  if (todayEl) todayEl.textContent = dayHours[new Date().getDay()];
+
+  // ── SCROLL FADE-IN ──
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  }
+
+  // ── CLOSE MOBILE MENU ON OUTSIDE CLICK ──
+  document.addEventListener('click', e => {
+    if (!burger.contains(e.target) && !mobileMenu.contains(e.target)) {
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      mobileMenu.classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>

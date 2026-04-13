@@ -75,9 +75,41 @@
       transition: background .3s;
     }
 
-    .logo { text-decoration: none; display: flex; flex-direction: column; line-height: 1; }
+    .logo { text-decoration: none; display: flex; align-items: center; gap: .65rem; line-height: 1; }
+    .logo-text { display: flex; flex-direction: column; line-height: 1; }
     .logo-main { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--gold); letter-spacing: .01em; }
     .logo-sub  { font-size: .58rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+    /* ── LOGO IMAGE ── */
+    .logo-img {
+      width: 46px; height: 46px; object-fit: contain;
+      mix-blend-mode: screen; filter: brightness(1.15);
+      flex-shrink: 0;
+    }
+
+    /* hero watermark */
+    .hero-logo-bg {
+      position: absolute; inset: 0; z-index: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; user-select: none;
+    }
+    .hero-logo-bg img {
+      width: clamp(280px, 42vw, 520px);
+      opacity: .07; mix-blend-mode: screen;
+      filter: brightness(1.4) saturate(1.2);
+      animation: logoPulse 6s ease-in-out infinite;
+    }
+    @keyframes logoPulse {
+      0%, 100% { opacity: .07; transform: scale(1); }
+      50%       { opacity: .11; transform: scale(1.03); }
+    }
+
+    /* footer logo */
+    .footer-logo-img {
+      width: 54px; height: 54px; object-fit: contain;
+      mix-blend-mode: screen; filter: brightness(1.1);
+      display: block; margin-bottom: .5rem;
+    }
 
     .nav-links { display: flex; align-items: center; gap: .25rem; list-style: none; }
     .nav-links a {
@@ -827,8 +859,11 @@
 <!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
 <nav id="nav" role="navigation" aria-label="Main navigation">
   <a href="#hero" class="logo" aria-label="Taste of Asia — home">
-    <span class="logo-main">Taste of Asia</span>
-    <span class="logo-sub">Thai &amp; Burmese · Buffalo, NY</span>
+    <img src="logo.png" class="logo-img" alt="" aria-hidden="true">
+    <span class="logo-text">
+      <span class="logo-main">Taste of Asia</span>
+      <span class="logo-sub">Thai &amp; Burmese · Buffalo, NY</span>
+    </span>
   </a>
   <ul class="nav-links">
     <li><a href="#about">Cuisine</a></li>
@@ -859,6 +894,7 @@
 <section id="hero" aria-label="Welcome">
   <div class="hero-canvas" aria-hidden="true"></div>
   <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-logo-bg" aria-hidden="true"><img src="logo.png" alt=""></div>
   <div class="hero-deco hero-deco-l" aria-hidden="true">Thai</div>
   <div class="hero-deco hero-deco-r" aria-hidden="true">Burma</div>
 
@@ -1444,8 +1480,11 @@
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="#hero" class="logo">
-        <span class="logo-main">Taste of Asia</span>
-        <span class="logo-sub">Thai &amp; Burmese · Buffalo, NY</span>
+        <img src="logo.png" class="logo-img" alt="" aria-hidden="true">
+        <span class="logo-text">
+          <span class="logo-main">Taste of Asia</span>
+          <span class="logo-sub">Thai &amp; Burmese · Buffalo, NY</span>
+        </span>
       </a>
       <p class="footer-tagline">Authentic Thai &amp; Burmese cuisine in the heart of Buffalo's Elmwood Village.</p>
     </div>

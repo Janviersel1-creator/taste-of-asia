@@ -689,7 +689,24 @@
     .om-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: 1.4rem; line-height: 1.3; }
     .om-section { margin-bottom: 1.25rem; }
     .om-section-label { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--dim); margin-bottom: .6rem; display: flex; align-items: center; gap: .5rem; }
-    .om-section-label::after { content: '*'; color: var(--gold); font-size: .8rem; }
+    .om-section-label.required::after { content: '*'; color: var(--gold); font-size: .8rem; }
+    .om-section-label.optional::after { content: 'optional'; font-size: .58rem; font-weight: 600; letter-spacing: .1em; color: var(--dim); opacity: .7; text-transform: lowercase; }
+
+    /* Special instructions textarea */
+    .om-note-wrap { position: relative; }
+    .om-note {
+      width: 100%; padding: .75rem .9rem; border-radius: 3px;
+      background: var(--surface); border: 1px solid var(--border-sub); color: var(--text);
+      font-family: 'Karla', sans-serif; font-size: .85rem; line-height: 1.55;
+      resize: none; outline: none; transition: border-color .2s;
+    }
+    .om-note::placeholder { color: var(--dim); }
+    .om-note:focus { border-color: var(--gold); }
+    .om-note-count { position: absolute; bottom: 6px; right: 8px; font-size: .6rem; color: var(--dim); pointer-events: none; }
+
+    /* Note display in cart */
+    .ci-note { font-size: .72rem; color: var(--muted); font-style: italic; margin-top: 3px; padding: 3px 6px; background: var(--surface2); border-left: 2px solid var(--dim); border-radius: 0 2px 2px 0; }
+    .or-item-note { font-size: .72rem; color: var(--muted); font-style: italic; }
 
     /* Protein grid */
     .protein-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .4rem; }
@@ -1496,13 +1513,13 @@
 
     <!-- Protein section -->
     <div class="om-section" id="omProteinSection" style="display:none;">
-      <p class="om-section-label">Choose Protein</p>
+      <p class="om-section-label required">Choose Protein</p>
       <div class="protein-grid" id="omProteinGrid"></div>
     </div>
 
     <!-- Spice section -->
     <div class="om-section" id="omSpiceSection" style="display:none;">
-      <p class="om-section-label">Spice Level</p>
+      <p class="om-section-label required">Spice Level</p>
       <div class="spice-grid">
         <button class="spice-btn" data-spice="Mild">Mild</button>
         <button class="spice-btn" data-spice="Medium">Medium</button>
@@ -1511,9 +1528,18 @@
       </div>
     </div>
 
+    <!-- Special instructions — always shown -->
+    <div class="om-section">
+      <p class="om-section-label optional">Special Instructions</p>
+      <div class="om-note-wrap">
+        <textarea class="om-note" id="omNote" rows="2" maxlength="200" placeholder="E.g. no peanuts, extra sauce, allergy info…"></textarea>
+        <span class="om-note-count" id="omNoteCount">0 / 200</span>
+      </div>
+    </div>
+
     <div class="om-foot">
       <p class="om-price-preview" id="omPricePreview"></p>
-      <button class="om-add" id="omAdd" disabled>
+      <button class="om-add" id="omAdd">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Add to Cart
       </button>
@@ -1630,11 +1656,11 @@
   function getTotal()    { return cart.reduce((s, i) => s + i.price * i.qty, 0); }
   function getTotalQty() { return cart.reduce((s, i) => s + i.qty, 0); }
 
-  function addItem(name, price, code, extra) {
+  function addItem(name, price, code, extra, note) {
     const key = code + (extra ? '|' + extra : '');
-    const existing = cart.find(i => i.key === key);
+    const existing = cart.find(i => i.key === key && i.note === (note || null));
     if (existing) { existing.qty++; }
-    else { cart.push({ key, code, name, price, qty: 1, extra: extra || null }); }
+    else { cart.push({ key: key + (note ? '~' + Date.now() : ''), code, name, price, qty: 1, extra: extra || null, note: note || null }); }
     saveCart();
   }
 
@@ -1691,6 +1717,7 @@
         <div class="ci-info">
           <div class="ci-name">${item.name}</div>
           ${item.extra ? `<div class="ci-extra">${item.extra}</div>` : ''}
+          ${item.note  ? `<div class="ci-note">${item.note}</div>` : ''}
         </div>
         <div class="ci-controls">
           <button class="qty-btn" onclick="updateQty('${item.key}',-1)" aria-label="Decrease quantity">−</button>
@@ -1744,9 +1771,12 @@
     const itemsCtr = document.getElementById('orItems');
     const totalEl  = document.getElementById('orTotal');
     itemsCtr.innerHTML = cart.map(item => `
-      <div class="or-item">
-        <span class="or-item-name">${item.qty}× ${item.name}${item.extra ? ' <em style="color:var(--dim);font-style:normal;">(${item.extra})</em>' : ''}</span>
-        <span class="or-item-price">$${(item.price * item.qty).toFixed(2)}</span>
+      <div class="or-item" style="flex-direction:column;align-items:flex-start;gap:2px;">
+        <div style="display:flex;justify-content:space-between;width:100%;">
+          <span class="or-item-name">${item.qty}× ${item.name}${item.extra ? ' <em style="color:var(--dim);font-style:normal;">(${item.extra})</em>' : ''}</span>
+          <span class="or-item-price">$${(item.price * item.qty).toFixed(2)}</span>
+        </div>
+        ${item.note ? `<span class="or-item-note">"${item.note}"</span>` : ''}
       </div>
     `).join('');
     totalEl.textContent = '$' + getTotal().toFixed(2);
@@ -1844,7 +1874,7 @@
     const { showProtein, showSpice, basePrice, extra } = modalCtx;
     const needProtein = showProtein && !selProtein;
     const needSpice   = showSpice   && !selSpice;
-    const ready = !needProtein && !needSpice;
+    const ready = !needProtein && !needSpice; // note is always optional
 
     document.getElementById('omAdd').disabled = !ready;
 
@@ -1863,6 +1893,8 @@
 
   function closeOptsModal() {
     document.getElementById('optsOverlay').classList.remove('open');
+    document.getElementById('omNote').value = '';
+    document.getElementById('omNoteCount').textContent = '0 / 200';
     modalCtx = null; selProtein = null; selSpice = null;
   }
 
@@ -1877,7 +1909,9 @@
     else if (extra)                parts.push(extra);
     if (showSpice   && selSpice)   parts.push(selSpice);
 
-    addItem(name, price, code, parts.join(' · ') || null);
+    const note = document.getElementById('omNote').value.trim() || null;
+
+    addItem(name, price, code, parts.join(' · ') || null, note);
     animateAdd(null);
     closeOptsModal();
     openCart();
@@ -1887,6 +1921,14 @@
   document.getElementById('optsOverlay').addEventListener('click', e => {
     if (e.target === document.getElementById('optsOverlay')) closeOptsModal();
   });
+
+  // Character counter for note field
+  document.getElementById('omNote').addEventListener('input', function() {
+    document.getElementById('omNoteCount').textContent = this.value.length + ' / 200';
+  });
+
+  // Note-only: direct-add items still show modal so customer can add a note
+  // (handled in injectButtons via showOptsModal with showProtein:false, showSpice:false)
 
   // ═══════════════════════════════════════════════════════
   // ADD BUTTON ANIMATION
@@ -1944,16 +1986,13 @@
       btn.setAttribute('aria-label', 'Add ' + name + ' to cart');
       btn.addEventListener('click', e => {
         e.stopPropagation();
-        if (isDirect) {
-          addItem(name, price, code);
-          animateAdd(btn);
-        } else if (isLunch) {
+        if (isLunch) {
           showOptsModal({ name, code, basePrice: price, showProtein: true, proteinOptions: LUNCH_PROTEINS, showSpice: true });
         } else if (needSpice) {
           showOptsModal({ name, code, basePrice: price, showProtein: false, showSpice: true });
         } else {
-          addItem(name, price, code);
-          animateAdd(btn);
+          // Direct panels (apps, sides, desserts) — note-only modal
+          showOptsModal({ name, code, basePrice: price, showProtein: false, showSpice: false });
         }
       });
 
@@ -2028,8 +2067,7 @@
       btn.setAttribute('aria-label', 'Add ' + name + ' to cart');
       btn.addEventListener('click', e => {
         e.stopPropagation();
-        addItem(name, price, code);
-        animateAdd(btn);
+        showOptsModal({ name, code, basePrice: price, showProtein: false, showSpice: false });
       });
       priceEl.style.display = 'flex';
       priceEl.style.alignItems = 'center';

@@ -1964,7 +1964,9 @@
       wrap.appendChild(btn);
     });
 
-    // ── Protein block rows: .pb-row  (protein already chosen → spice only) ──
+    // ── Protein block rows: .pb-row ──
+    // Rows like "Chicken / Pork / Tofu" or "Chicken or Pork" split into
+    // individual choices; single-protein rows (e.g. "Beef") go straight to spice.
     document.querySelectorAll('.proto-block').forEach(block => {
       const rawTitle = block.querySelector('.pb-name')?.textContent || '';
       const dishName = rawTitle.replace(/^[A-Z0-9]+\s*[–—]\s*/, '').trim();
@@ -1974,17 +1976,34 @@
         const priceEl = row.querySelector('.pb-price');
         if (!labelEl || !priceEl) return;
 
-        const proteinLabel = labelEl.textContent.trim();
-        const price        = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, ''));
+        const rawLabel = labelEl.textContent.trim();
+        const price    = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, ''));
         if (isNaN(price)) return;
-        const code = dishName.substring(0, 5).replace(/\s/g, '') + '|' + proteinLabel.substring(0, 4).replace(/\s/g, '');
+
+        // Split "Chicken / Pork / Tofu" or "Chicken or Pork" into individual options
+        const proteins = rawLabel.split(/\s*\/\s*|\s+or\s+/i).map(s => s.trim()).filter(Boolean);
+        const isMulti  = proteins.length > 1;
+
+        const code = dishName.substring(0, 5).replace(/\s/g, '') + '|' + rawLabel.substring(0, 6).replace(/\s/g, '');
 
         const btn = makeAddBtn(true);
-        btn.setAttribute('aria-label', `Add ${dishName} (${proteinLabel}) to cart`);
+        btn.setAttribute('aria-label', `Add ${dishName} to cart`);
         btn.addEventListener('click', e => {
           e.stopPropagation();
-          // Show spice selector; protein is already the row label
-          showOptsModal({ name: dishName, code, basePrice: price, extra: proteinLabel, showProtein: false, showSpice: true });
+          if (isMulti) {
+            // Multiple proteins in this row → let customer pick one + spice
+            showOptsModal({
+              name: dishName,
+              code,
+              basePrice: price,
+              showProtein: true,
+              proteinOptions: proteins.map(p => ({ label: p, price })),
+              showSpice: true,
+            });
+          } else {
+            // Single protein already specific (e.g. "Beef", "Seafood Combination")
+            showOptsModal({ name: dishName, code, basePrice: price, extra: rawLabel, showProtein: false, showSpice: true });
+          }
         });
 
         priceEl.style.display = 'flex';

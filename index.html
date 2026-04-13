@@ -301,9 +301,22 @@
     .cc-items { display: flex; flex-wrap: wrap; gap: .4rem; }
     .cc-chip {
       font-size: .62rem; font-weight: 600; letter-spacing: .05em;
-      padding: 3px 8px; border-radius: 2px; background: rgba(255,255,255,.06);
+      padding: 6px 12px; border-radius: 3px; background: rgba(255,255,255,.06);
       color: var(--text2); border: 1px solid var(--border-sub);
+      cursor: pointer; transition: background .2s, border-color .2s, color .2s, transform .15s;
+      user-select: none; display: inline-flex; align-items: center; gap: 5px;
     }
+    .cc-chip:hover {
+      background: var(--gold-dim); border-color: var(--gold);
+      color: var(--gold); transform: translateY(-1px);
+    }
+    .cc-chip:hover::after { content: '+'; font-size: .75rem; font-weight: 700; opacity: .8; }
+    .cc-chip:active { transform: scale(.97); }
+    .cc-section-hint {
+      font-size: .65rem; color: var(--dim); margin-top: .6rem;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .cc-section-hint::before { content: ''; width: 14px; height: 1px; background: var(--dim); }
 
     /* ─────────────────────── SPECIALS HIGHLIGHT ─────────────────────── */
     #specials { background: var(--bg); }
@@ -936,13 +949,14 @@
         <h3 class="cc-title">Thai Flavors</h3>
         <p class="cc-desc">Vibrant lemongrass, kaffir lime, Thai basil, and bird's eye chili — layers of bold aromatics in every dish.</p>
         <div class="cc-items">
-          <span class="cc-chip">Pad Thai</span>
-          <span class="cc-chip">Green Curry</span>
-          <span class="cc-chip">Tom Yum</span>
-          <span class="cc-chip">Panang Curry</span>
-          <span class="cc-chip">Drunken Noodles</span>
-          <span class="cc-chip">Papaya Salad</span>
+          <button class="cc-chip" data-chip="Pad Thai">Pad Thai</button>
+          <button class="cc-chip" data-chip="Green Curry">Green Curry</button>
+          <button class="cc-chip" data-chip="Tom Yum">Tom Yum</button>
+          <button class="cc-chip" data-chip="Panang Curry">Panang Curry</button>
+          <button class="cc-chip" data-chip="Drunken Noodles">Drunken Noodles</button>
+          <button class="cc-chip" data-chip="Papaya Salad">Papaya Salad</button>
         </div>
+        <p class="cc-section-hint">Tap any dish to customize &amp; add to cart</p>
       </div>
     </div>
     <div class="cuisine-card" aria-label="Burmese cuisine">
@@ -954,13 +968,14 @@
         <h3 class="cc-title">Burmese Traditions</h3>
         <p class="cc-desc">Rich coconut milk broths, fermented tea leaves, and layered curry pastes unique to the Irrawaddy Delta.</p>
         <div class="cc-items">
-          <span class="cc-chip">Khow Suey</span>
-          <span class="cc-chip">Tea Leaf Salad</span>
-          <span class="cc-chip">Burmese Cup</span>
-          <span class="cc-chip">Beef Curry</span>
-          <span class="cc-chip">Burmese Fried Rice</span>
-          <span class="cc-chip">MAMA Noodles</span>
+          <button class="cc-chip" data-chip="Khow Suey">Khow Suey</button>
+          <button class="cc-chip" data-chip="Tea Leaf Salad">Tea Leaf Salad</button>
+          <button class="cc-chip" data-chip="Burmese Cup">Burmese Cup</button>
+          <button class="cc-chip" data-chip="Beef Curry">Beef Curry</button>
+          <button class="cc-chip" data-chip="Burmese Fried Rice">Burmese Fried Rice</button>
+          <button class="cc-chip" data-chip="MAMA Noodles">MAMA Noodles</button>
         </div>
+        <p class="cc-section-hint">Tap any dish to customize &amp; add to cart</p>
       </div>
     </div>
   </div>
@@ -1952,6 +1967,76 @@
     btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>';
     return btn;
   }
+
+  // ═══════════════════════════════════════════════════════
+  // CUISINE CARD CHIPS — item config map + click wiring
+  // ═══════════════════════════════════════════════════════
+  const NOODLE_PROTEINS = [
+    { label: 'Chicken',          price: 14.99 },
+    { label: 'Pork',             price: 14.99 },
+    { label: 'Beef',             price: 15.99 },
+    { label: 'Shrimp',          price: 16.99 },
+    { label: 'Squid',           price: 16.99 },
+    { label: 'Sea Scallops',    price: 16.99 },
+    { label: 'Seafood Combo',   price: 18.99 },
+    { label: 'Tofu',            price: 14.99 },
+    { label: 'Vegetables',      price: 14.99 },
+  ];
+  const CURRY_PROTEINS = [
+    { label: 'Chicken',  price: 14.99 },
+    { label: 'Pork',     price: 14.99 },
+    { label: 'Tofu',     price: 14.99 },
+    { label: 'Beef',     price: 15.99 },
+    { label: 'Shrimp',   price: 16.99 },
+    { label: 'Mussels',  price: 16.99 },
+    { label: 'Scallops', price: 16.99 },
+    { label: 'Squid',    price: 16.99 },
+  ];
+  const FRICE_PROTEINS = [
+    { label: 'Chicken', price: 14.99 },
+    { label: 'Pork',    price: 14.99 },
+    { label: 'Beef',    price: 15.99 },
+    { label: 'Shrimp',  price: 16.99 },
+  ];
+
+  const CHIP_ITEMS = {
+    // ── Thai ──
+    'Pad Thai':        { name: 'Pad Thai',                    code: 'N1',  showProtein: true,  proteinOptions: NOODLE_PROTEINS, showSpice: true  },
+    'Green Curry':     { name: 'Green Curry',                 code: 'C2',  showProtein: true,  proteinOptions: CURRY_PROTEINS,  showSpice: true  },
+    'Tom Yum':         { name: 'Tom Yum Soup',                code: 'S1',  basePrice: 6.99,    showProtein: false,              showSpice: false },
+    'Panang Curry':    { name: 'Panang Curry',                code: 'C4',  showProtein: true,  proteinOptions: CURRY_PROTEINS,  showSpice: true  },
+    'Drunken Noodles': { name: 'Pad Kee Mao (Drunken Noodles)', code: 'N3', showProtein: true, proteinOptions: NOODLE_PROTEINS, showSpice: true  },
+    'Papaya Salad':    { name: 'Papaya Salad',                code: 'SL2', basePrice: 12.99,   showProtein: false,              showSpice: true  },
+    // ── Burmese ──
+    'Khow Suey':          { name: 'Khow Suey (Burmese Noodles)', code: 'NS1', basePrice: 14.99, showProtein: false, showSpice: true  },
+    'Tea Leaf Salad':     { name: 'Tea Leaf Salad',               code: 'SL1', basePrice: 12.99, showProtein: false, showSpice: false },
+    'Burmese Cup':        { name: 'Burmese Cup',                  code: 'A1',  basePrice: 9.99,  showProtein: false, showSpice: false },
+    'Beef Curry':         { name: 'Burmese Beef Curry',           code: 'C7',  basePrice: 15.99, showProtein: false, showSpice: true  },
+    'Burmese Fried Rice': { name: 'Burmese Fried Rice',           code: 'F3',  showProtein: true, proteinOptions: FRICE_PROTEINS, showSpice: true },
+    'MAMA Noodles':       { name: 'Burmese Noodles (MAMA)',       code: 'NS5', showProtein: true,
+      proteinOptions: [
+        { label: 'Chicken', price: 14.99 },
+        { label: 'Pork',    price: 14.99 },
+        { label: 'Beef',    price: 15.99 },
+      ], showSpice: true },
+  };
+
+  // Wire chip clicks
+  document.querySelectorAll('.cc-chip[data-chip]').forEach(chip => {
+    const key  = chip.dataset.chip;
+    const item = CHIP_ITEMS[key];
+    if (!item) return;
+    chip.addEventListener('click', () => {
+      showOptsModal({
+        name:           item.name,
+        code:           item.code,
+        basePrice:      item.basePrice || 0,
+        showProtein:    item.showProtein,
+        proteinOptions: item.proteinOptions || [],
+        showSpice:      item.showSpice,
+      });
+    });
+  });
 
   // Panels that get SPICE option on mi-row/mg-cell items
   const SPICE_PANELS   = new Set(['p-salads', 'p-noodles', 'p-entrees', 'p-soups']);
